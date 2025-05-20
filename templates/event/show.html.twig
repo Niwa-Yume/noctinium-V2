@@ -8,6 +8,23 @@
         <img src="{{event.image}}">
         <p><strong>Date :</strong> {{ event.date|date('d/m/Y') }}</p>
         <p><strong>Description :</strong> {{ event.description }}</p>
+        <p><strong>Catégories :</strong>
+            {% for cat in event.categories %}
+                <span class="badge bg-secondary">{{ cat.name }}</span>
+            {% else %}
+                <em>Aucune catégorie</em>
+            {% endfor %}
+        </p>
+        <br>
+        <p><strong>Créé par :</strong> {{ event.createdBy.username }}</p>
+        <br>
         <a href="{{ path('app_event_index') }}">Retour à la liste</a>
     </div>
+    <br>
+    <a href="{{ path('app_event_edit', { id: event.id }) }}" class="btn btn-warning">Modifier</a>
+
+    <form action="{{ path('app_event_delete', { id: event.id }) }}" method="post" style="display:inline;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">Supprimer</button>
+    </form>
 {% endblock %}

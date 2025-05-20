@@ -8,8 +8,15 @@
         <a href="{{ path('app_event_create') }}" class="btn btn-primary">Créer un nouvel événement</a>
         <ul>
             {% for event in events %}
+                <br>
+                <br>
                 <li>
                     <strong>{{ event.title }}</strong> - {{ event.date|date('d/m/Y') }}<br>
+                    <small>
+                        {% for cat in event.categories %}
+                            <span class="badge bg-secondary">{{ cat.name }}</span>
+                        {% endfor %}
+                    </small><br>
                     {{ event.description }}<br>
                     <a href="{{ path('app_event_show', { id: event.id }) }}">Voir les détails</a>
                 </li>
