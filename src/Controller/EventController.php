@@ -45,14 +45,18 @@ final class EventController extends AbstractController
         ]);
     }
 
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+
         $event = new Event();
         $form = $this->createForm(NewEventForm::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Récupération de l'utilisateur connecté
+            $event->setCreatedBy($this->getUser());
             // persiste les données
             $entityManager->persist($event);
             // enregistre les données
