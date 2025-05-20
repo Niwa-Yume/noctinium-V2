@@ -45,10 +45,17 @@ class Event
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'events')]
     private Collection $categories;
 
+    /**
+     * @var Collection<int, Interet>
+     */
+    #[ORM\OneToMany(targetEntity: Interet::class, mappedBy: 'event')]
+    private Collection $interets;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->interets = new ArrayCollection();
     }
 
     //* Getters and Setters*//
@@ -169,6 +176,36 @@ class Event
     public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Interet>
+     */
+    public function getInterets(): Collection
+    {
+        return $this->interets;
+    }
+
+    public function addInteret(Interet $interet): static
+    {
+        if (!$this->interets->contains($interet)) {
+            $this->interets->add($interet);
+            $interet->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInteret(Interet $interet): static
+    {
+        if ($this->interets->removeElement($interet)) {
+            // set the owning side to null (unless already changed)
+            if ($interet->getEvent() === $this) {
+                $interet->setEvent(null);
+            }
+        }
 
         return $this;
     }
