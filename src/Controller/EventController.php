@@ -149,7 +149,8 @@ final class EventController extends AbstractController
             $em->persist($interet);
         }
         $em->flush();
+        dump($interet);
 
-        return $this->redirectToRoute('app_event_show', ['id'=>$event->getId()]);
+        return $this->redirectToRoute('app_profile_index');
     }
 }

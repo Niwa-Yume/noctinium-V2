@@ -25,7 +25,7 @@ class Interet
     private ?Status $status = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
     {
@@ -70,5 +70,10 @@ class Interet
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 }

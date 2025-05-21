@@ -1,16 +1,23 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Mon profil{% endblock %}
 
+{# templates/profile/index.html.twig #}
 {% block body %}
-    <h1>Événements « j’y vais »</h1>
+    <h1>Mes choix</h1>
+
+    <h2>J’y vais</h2>
     <ul>
-        {% for event in events %}
-            <li>
-                <a href="{{ path('app_event_show', {id: event.id}) }}">
-                    {{ event.title }} – {{ event.date|date('d/m/Y') }}
-                </a>
-            </li>
+        {% for e in going %}
+            <li><a href="{{ path('app_event_show',{id: e.id}) }}">{{ e.title }}</a></li>
+        {% else %}
+            <li>Aucun événement.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Je n’y vais pas</h2>
+    <ul>
+        {% for e in notGoing %}
+            <li><a href="{{ path('app_event_show',{id: e.id}) }}">{{ e.title }}</a></li>
         {% else %}
             <li>Aucun événement.</li>
         {% endfor %}

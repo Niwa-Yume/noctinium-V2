@@ -5,7 +5,13 @@
 {% block body %}
     <div class="example-wrapper">
         <h1>{{ event.title }}</h1>
-        <img src="{{event.image}}">
+        {% if event.image %}
+            <img src="{{ event.image }}"
+                 alt="{{ event.title }}"
+                 class="img-fluid">
+        {% else %}
+            <p>Aucune image disponible.</p>
+        {% endif %}
         <p><strong>Date :</strong> {{ event.date|date('d/m/Y') }}</p>
         <p><strong>Description :</strong> {{ event.description }}</p>
         <p><strong>Catégories :</strong>

@@ -14,20 +14,25 @@ final class ProfileController extends AbstractController
 {
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('', name: '_index', methods: ['GET'])]
-    public function index(
-        InteretRepository $interetRepo,
-        StatusRepository $statusRepo
-    ): Response {
-        $user   = $this->getUser();
-        $status = $statusRepo->findOneBy(['status' => "j'y vais"]);
-        $interets = $status
-            ? $interetRepo->findBy(['user' => $user, 'status' => $status])
-            : [];
+    public function index(InteretRepository $interetRepo): Response
+    {
+        $user     = $this->getUser();
+        $interets = $interetRepo->findBy(['user' => $user]);
 
-        $events = array_map(fn($i) => $i->getEvent(), $interets);
+        $going    = [];
+        $notGoing = [];
+        foreach ($interets as $i) {
+            $s = $i->getStatus()?->getStatus();
+            if ($s === "j'y vais") {
+                $going[] = $i->getEvent();
+            } elseif ($s === "je n'y vais pas") {
+                $notGoing[] = $i->getEvent();
+            }
+        }
 
         return $this->render('profile/index.html.twig', [
-            'events' => $events,
+            'going'    => $going,
+            'notGoing' => $notGoing,
         ]);
     }
 }
