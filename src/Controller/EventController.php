@@ -14,22 +14,38 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Event;
 use App\controller;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Repository\CategoryRepository;
+
 
 //ici on peut mettre un route pour définir les routes d'en dessous #[Route('/event', name: 'app_event_nom_de_la_route')]
 #[Route('/event', name: 'app_event_')]
 final class EventController extends AbstractController
 {
+
     #[Route('', name: 'index')]
-    public function index(EventRepository $eventRepository): Response
-    {
-        $events = $eventRepository->findAll();
+    public function index(
+        EventRepository $eventRepository,
+        CategoryRepository $categoryRepository,
+        Request $request
+    ): Response {
+        $categoryId = $request->query->get('category');
+        $categories = $categoryRepository->findAll();
 
-        //$events = $eventRepository->findEventByTitle('Expedita voluptas voluptatum est.');
-
-        //dd($events); // Affiche les données et arrête l'exécution
+        if ($categoryId) {
+            $events = $eventRepository->createQueryBuilder('e')
+                ->join('e.categories', 'c')
+                ->where('c.id = :cat')
+                ->setParameter('cat', $categoryId)
+                ->getQuery()
+                ->getResult();
+        } else {
+            $events = $eventRepository->findAll();
+        }
 
         return $this->render('event/index.html.twig', [
             'events' => $events,
+            'categories' => $categories,
+            'selectedCategory' => $categoryId,
         ]);
     }
 

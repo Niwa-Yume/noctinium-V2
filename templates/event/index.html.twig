@@ -6,6 +6,17 @@
     <div class="example-wrapper">
         <h1>Liste des événements</h1>
         <a href="{{ path('app_event_create') }}" class="btn btn-primary">Créer un nouvel événement</a>
+
+        <form method="get">
+            <label>Filtrer par catégorie :</label>
+            <select name="category" onchange="this.form.submit()">
+                <option value="">Toutes</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if cat.id == selectedCategory %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
         <ul>
             {% for event in events %}
                 <br>
