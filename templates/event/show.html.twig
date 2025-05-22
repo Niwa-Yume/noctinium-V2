@@ -13,6 +13,8 @@
             <p>Aucune image disponible.</p>
         {% endif %}
         <p><strong>Date :</strong> {{ event.date|date('d/m/Y') }}</p>
+        <p><strong>Lieu :</strong> {{ event.lieu }}</p>
+        <p><strong>Prix :</strong> {{ event.price }} CHF</p>
         <p><strong>Description :</strong> {{ event.description }}</p>
         <p><strong>Catégories :</strong>
             {% for cat in event.categories %}

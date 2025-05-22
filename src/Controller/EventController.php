@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Repository\CategoryRepository;
 
 
-//ici on peut mettre un route pour définir les routes d'en dessous #[Route('/event', name: 'app_event_nom_de_la_route')]
+
 #[Route('/event', name: 'app_event_')]
 final class EventController extends AbstractController
 {
