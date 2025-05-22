@@ -38,12 +38,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Interet>
      */
-    #[ORM\OneToMany(targetEntity: Interet::class, mappedBy: 'user')]
+    //Me permet de faire le lien entre l'utilisateur et les interets
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Interet::class)]
     private Collection $no;
+
+
+
 
     public function __construct()
     {
         $this->no = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -122,10 +127,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Interet>
      */
-    public function getNo(): Collection
-    {
-        return $this->no;
-    }
 
     public function addNo(Interet $no): static
     {
@@ -147,5 +148,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+
+    public function getNo(): Collection
+    {
+        return $this->no;
     }
 }

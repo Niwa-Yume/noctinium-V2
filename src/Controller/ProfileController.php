@@ -16,23 +16,29 @@ final class ProfileController extends AbstractController
     #[Route('', name: '_index', methods: ['GET'])]
     public function index(InteretRepository $interetRepo): Response
     {
-        $user     = $this->getUser();
+        $user = $this->getUser();
         $interets = $interetRepo->findBy(['user' => $user]);
 
-        $going    = [];
+        $going = [];
         $notGoing = [];
+
         foreach ($interets as $i) {
             $s = $i->getStatus()?->getStatus();
-            if ($s === "j'y vais") {
+            // Normalisation : minuscule et apostrophe droite
+            $sNorm = str_replace('’', "'", mb_strtolower($s));
+
+            if ($sNorm === "j'y vais") {
                 $going[] = $i->getEvent();
-            } elseif ($s === "je n'y vais pas") {
+            } elseif ($sNorm === "je n'y vais pas") {
                 $notGoing[] = $i->getEvent();
             }
         }
 
+
         return $this->render('profile/index.html.twig', [
-            'going'    => $going,
+            'going' => $going,
             'notGoing' => $notGoing,
         ]);
+
     }
 }

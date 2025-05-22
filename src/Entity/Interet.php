@@ -17,11 +17,12 @@ class Interet
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'interets')]
-    #[ORM\JoinColumn(nullable: false)]
+
+    #[ORM\ManyToOne(inversedBy: 'no')]
     private ?Event $event = null;
 
-    #[ORM\ManyToOne(inversedBy: 'interets')]
+
+    #[ORM\ManyToOne(inversedBy: 'no')]
     private ?Status $status = null;
 
     #[ORM\Column(type: 'datetime_immutable')]

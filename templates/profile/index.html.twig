@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block title %}Mon profil{% endblock %}
 
-{# templates/profile/index.html.twig #}
 {% block body %}
     <h1>Mes choix</h1>
 
     <h2>J’y vais</h2>
+
     <ul>
         {% for e in going %}
             <li><a href="{{ path('app_event_show',{id: e.id}) }}">{{ e.title }}</a></li>
