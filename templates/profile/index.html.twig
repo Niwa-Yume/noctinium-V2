@@ -22,4 +22,12 @@
             <li>Aucun événement.</li>
         {% endfor %}
     </ul>
+    <h2>Statistiques des événements</h2>
+    <p>Total : {{ total }}</p>
+    <p>À venir : {{ upcoming }}</p>
+    <ul>
+        {% for cat in byCategory %}
+            <li>{{ cat.name }} : {{ cat.nb }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
